@@ -43,9 +43,13 @@ public class FuncionarioController {
 
     @PutMapping("/{id}")
     @Transactional
-    public String deleteFuncionarioId(@PathVariable Long id){
-        funcionarioRepository.deleteById(id);
-        return "Apagado com sucesso";
+    public ResponseEntity<?> deleteFuncionarioId(@PathVariable Long id){
+        try{
+            funcionarioRepository.deleteById(id);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("Apagado com sucesso");
     }
 
 }
