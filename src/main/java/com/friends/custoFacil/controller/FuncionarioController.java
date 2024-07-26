@@ -4,6 +4,7 @@ package com.friends.custoFacil.controller;
 import com.friends.custoFacil.domain.Funcionario;
 import com.friends.custoFacil.dto.CadastroFuncionario;
 import com.friends.custoFacil.repository.FuncionarioRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class FuncionarioController {
     FuncionarioRepository funcionarioRepository;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<?> newFuncionario(@RequestBody @Valid CadastroFuncionario dados){
         try {
             funcionarioRepository.save(new Funcionario(dados));
@@ -37,6 +39,13 @@ public class FuncionarioController {
     @GetMapping("/{id}")
     public Optional<Funcionario> getFuncionarioId(@PathVariable Long id){
         return funcionarioRepository.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public String deleteFuncionarioId(@PathVariable Long id){
+        funcionarioRepository.deleteById(id);
+        return "Apagado com sucesso";
     }
 
 }
