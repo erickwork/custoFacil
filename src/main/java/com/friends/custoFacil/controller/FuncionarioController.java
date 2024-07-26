@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/funcionarios")
@@ -31,6 +32,11 @@ public class FuncionarioController {
     @GetMapping
     public List<Funcionario> getAllFuncionarios(){
         return funcionarioRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Funcionario> getFuncionarioId(@PathVariable Long id){
+        return funcionarioRepository.findById(id);
     }
 
 }
