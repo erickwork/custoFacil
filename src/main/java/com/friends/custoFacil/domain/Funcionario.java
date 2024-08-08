@@ -2,6 +2,7 @@ package com.friends.custoFacil.domain;
 
 
 import com.friends.custoFacil.dto.CadastroFuncionario;
+import com.friends.custoFacil.enums.StatusFuncionario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Funcionario")
-@Table(name = "Funcionarios")
+@Table(name = "Funcio" +
+        "narios")
 public class Funcionario {
 
     @Id
@@ -22,9 +24,14 @@ public class Funcionario {
     private String email;
     private String celular;
 
+    @Column(name = "status")
+    @Enumerated (EnumType.STRING)
+    private StatusFuncionario statusFuncionario;
+
     public Funcionario(CadastroFuncionario dados) {
         this.nome = dados.nome();
         this.email = dados.email();
         this.celular = dados.celular();
+        this.statusFuncionario = statusFuncionario.ACTIVE;
     }
 }

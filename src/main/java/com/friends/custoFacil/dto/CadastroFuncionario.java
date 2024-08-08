@@ -2,7 +2,6 @@ package com.friends.custoFacil.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record CadastroFuncionario(
@@ -15,5 +14,8 @@ public record CadastroFuncionario(
 
         @NotBlank
         @Pattern(regexp = "\\d{11}", message = "Tamanho de celular invalido")
-        String celular) {
+        String celular)
+
+        //Status como padrão é definido como Ativo
+{
 }
