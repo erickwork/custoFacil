@@ -3,6 +3,7 @@ package com.friends.custoFacil.controller;
 
 import com.friends.custoFacil.domain.Funcionario;
 import com.friends.custoFacil.dto.CadastroFuncionario;
+import com.friends.custoFacil.dto.retornoFuncionarios;
 import com.friends.custoFacil.repository.FuncionarioRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -32,8 +33,8 @@ public class FuncionarioController {
     }
 
     @GetMapping
-    public List<Funcionario> getAllFuncionarios(){
-        return funcionarioRepository.findAll();
+    public List<retornoFuncionarios> getAllFuncionarios(){
+        return funcionarioRepository.findAll().stream().map(retornoFuncionarios::new).toList();
     }
 
     @GetMapping("/{id}")
