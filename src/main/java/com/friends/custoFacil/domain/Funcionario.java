@@ -23,6 +23,7 @@ public class Funcionario {
     private String email;
     private String celular;
 
+
     @Column(name = "status")
     @Enumerated (EnumType.STRING)
     private StatusFuncionario statusFuncionario;
