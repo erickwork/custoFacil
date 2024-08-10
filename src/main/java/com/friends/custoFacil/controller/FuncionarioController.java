@@ -3,6 +3,7 @@ package com.friends.custoFacil.controller;
 
 import com.friends.custoFacil.domain.Funcionario;
 import com.friends.custoFacil.dto.CadastroFuncionario;
+import com.friends.custoFacil.dto.retornoFuncionarioID;
 import com.friends.custoFacil.dto.retornoFuncionarios;
 import com.friends.custoFacil.repository.FuncionarioRepository;
 import jakarta.transaction.Transactional;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/funcionarios")
@@ -38,8 +39,8 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Funcionario> getFuncionarioId(@PathVariable Long id){
-        return funcionarioRepository.findById(id);
+    public Stream<retornoFuncionarioID> getFuncionarioId(@PathVariable Long id){
+        return funcionarioRepository.findById(id).stream().map(retornoFuncionarioID::new);
     }
 
     @DeleteMapping("/{id}")
