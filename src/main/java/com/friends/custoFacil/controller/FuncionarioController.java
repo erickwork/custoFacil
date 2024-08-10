@@ -39,8 +39,16 @@ public class FuncionarioController {
     }
 
     @GetMapping("/{id}")
-    public Stream<retornoFuncionarioID> getFuncionarioId(@PathVariable Long id){
-        return funcionarioRepository.findById(id).stream().map(retornoFuncionarioID::new);
+    public ResponseEntity<?> getFuncionarioId(@PathVariable Long id){
+        try {
+            if(funcionarioRepository.findById(id).isPresent()){
+                var funcionario = funcionarioRepository.findById(id).stream().map(retornoFuncionarioID::new);
+                return ResponseEntity.ok().body(funcionario);
+            }
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.badRequest().body("Código inválido!");
     }
 
     @DeleteMapping("/{id}")
