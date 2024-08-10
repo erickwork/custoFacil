@@ -12,8 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Funcionario")
-@Table(name = "Funcio" +
-        "narios")
+@Table(name = "Funcionarios")
 public class Funcionario {
 
     @Id
@@ -33,5 +32,9 @@ public class Funcionario {
         this.email = dados.email();
         this.celular = dados.celular();
         this.statusFuncionario = statusFuncionario.ACTIVE;
+    }
+
+    public void inativarFuncionario() {
+        this.statusFuncionario = statusFuncionario.INACTIVE;
     }
 }
