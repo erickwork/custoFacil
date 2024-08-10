@@ -41,15 +41,17 @@ public class FuncionarioController {
         return funcionarioRepository.findById(id);
     }
 
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> deleteFuncionarioId(@PathVariable Long id){
+    public ResponseEntity<?> inativarFuncionarioId(@PathVariable Long id){
         try{
-            funcionarioRepository.deleteById(id);
+            var funcionarioDados = funcionarioRepository.getReferenceById(id);
+            funcionarioDados.inativarFuncionario();
+            funcionarioRepository.save(funcionarioDados);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok().body("Apagado com sucesso");
+        return ResponseEntity.ok().body("Funcionário foi Inativado com sucesso");
     }
 
 }
