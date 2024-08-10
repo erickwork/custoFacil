@@ -54,4 +54,17 @@ public class FuncionarioController {
         return ResponseEntity.ok().body("Funcionário foi Inativado com sucesso");
     }
 
+    @PatchMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> reativarFuncionarioId(@PathVariable Long id){
+        try{
+            var funcionarioDados = funcionarioRepository.getReferenceById(id);
+            funcionarioDados.reativarFuncionario();
+            funcionarioRepository.save(funcionarioDados);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("Funcionário foi reativado com sucesso");
+    }
+
 }

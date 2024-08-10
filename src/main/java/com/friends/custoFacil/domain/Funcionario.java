@@ -37,4 +37,8 @@ public class Funcionario {
     public void inativarFuncionario() {
         this.statusFuncionario = statusFuncionario.INACTIVE;
     }
+
+    public void reativarFuncionario() {
+        this.statusFuncionario = statusFuncionario.ACTIVE;
+    }
 }
