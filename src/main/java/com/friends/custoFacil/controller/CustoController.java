@@ -3,13 +3,11 @@ package com.friends.custoFacil.controller;
 import com.friends.custoFacil.domain.Custo;
 import com.friends.custoFacil.dto.cadastroCusto;
 import com.friends.custoFacil.repository.CustoRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/custo")
@@ -19,6 +17,7 @@ public class CustoController {
     CustoRepository custoRepository;
 
     @PostMapping
+    @Transactional // Diz que é uma transação
     public ResponseEntity<?> novoCusto(@RequestBody @Valid cadastroCusto cadastroCusto) {
         try{
             custoRepository.save(new Custo(cadastroCusto));
@@ -26,6 +25,12 @@ public class CustoController {
         }catch(Exception e){
             return ResponseEntity.badRequest().body("Erro ao adicionar o custo: " + e.getMessage());
         }
+    }
+
+
+    @GetMapping
+    public ResponseEntity<?> listarCustos() {
+            return ResponseEntity.ok().body(custoRepository.findAll());
     }
 
 
