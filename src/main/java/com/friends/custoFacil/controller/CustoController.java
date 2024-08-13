@@ -1,13 +1,17 @@
 package com.friends.custoFacil.controller;
 
 import com.friends.custoFacil.domain.Custo;
+import com.friends.custoFacil.dto.AlterarCusto;
 import com.friends.custoFacil.dto.cadastroCusto;
 import com.friends.custoFacil.repository.CustoRepository;
+import com.friends.custoFacil.service.custoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/custo")
@@ -15,6 +19,9 @@ public class CustoController {
 
     @Autowired
     CustoRepository custoRepository;
+
+    @Autowired
+    private custoService custoService;
 
     @PostMapping
     @Transactional // Diz que é uma transação
@@ -34,4 +41,14 @@ public class CustoController {
     }
 
 
+    @PostMapping("/alterar/{id}")
+    public ResponseEntity<?> alterarCusto(@PathVariable Long id, @RequestBody AlterarCusto alteraCusto) {
+        try {
+            List<String> mudancas = (List<String>) custoService.alteraCusto(id, alteraCusto);
+            return ResponseEntity.ok().body(mudancas);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
