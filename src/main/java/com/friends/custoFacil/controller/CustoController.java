@@ -23,6 +23,7 @@ public class CustoController {
     @Autowired
     private custoService custoService;
 
+
     @PostMapping
     @Transactional // Diz que é uma transação
     public ResponseEntity<?> novoCusto(@RequestBody @Valid cadastroCusto cadastroCusto) {
@@ -50,5 +51,16 @@ public class CustoController {
         catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> excluirCusto(@PathVariable Long id){
+        try{
+            return custoService.excluirCusto(id);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }
