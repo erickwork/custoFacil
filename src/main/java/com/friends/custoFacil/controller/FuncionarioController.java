@@ -5,6 +5,7 @@ import com.friends.custoFacil.domain.Funcionario;
 import com.friends.custoFacil.dto.CadastroFuncionario;
 import com.friends.custoFacil.dto.retornoFuncionarioID;
 import com.friends.custoFacil.dto.retornoFuncionarios;
+import com.friends.custoFacil.enums.StatusFuncionario;
 import com.friends.custoFacil.repository.FuncionarioRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -21,6 +22,7 @@ public class FuncionarioController {
 
     @Autowired
     FuncionarioRepository funcionarioRepository;
+    StatusFuncionario statusFuncionario;
 
     @PostMapping
     @Transactional
@@ -75,6 +77,12 @@ public class FuncionarioController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().body("Funcionário foi reativado com sucesso");
+    }
+
+
+    @GetMapping("/ativos")
+    public List<Funcionario> getFuncionariosAtivos(){
+        return funcionarioRepository.findByStatusFuncionario(statusFuncionario.ACTIVE);
     }
 
 }
