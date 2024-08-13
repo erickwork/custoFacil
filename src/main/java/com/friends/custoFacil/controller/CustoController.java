@@ -57,8 +57,7 @@ public class CustoController {
     @Transactional
     public ResponseEntity<?> excluirCusto(@PathVariable Long id){
         try{
-            var custoExclusao = custoService.excluirCusto(id);
-            return ResponseEntity.ok().body(custoExclusao);
+            return custoService.excluirCusto(id);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
