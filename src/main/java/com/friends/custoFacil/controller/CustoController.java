@@ -4,6 +4,7 @@ import com.friends.custoFacil.domain.Custo;
 import com.friends.custoFacil.domain.Funcionario;
 import com.friends.custoFacil.dto.AlterarCusto;
 import com.friends.custoFacil.dto.cadastroCusto;
+import com.friends.custoFacil.enums.StatusPagamento;
 import com.friends.custoFacil.repository.CustoRepository;
 import com.friends.custoFacil.repository.FuncionarioRepository;
 import com.friends.custoFacil.service.custoService;
@@ -69,7 +70,7 @@ public class CustoController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/funcionario/{id}")
     public ResponseEntity<?> listarCustoPorFuncionario(@PathVariable Long id){
 
         try {
@@ -80,7 +81,7 @@ public class CustoController {
             List<Custo> listaDeCusto = custoRepository.findCustoByIdFuncionario(id);
 
             if (listaDeCusto.isEmpty()){
-                return ResponseEntity.ok().body("Usuário não possui custo");
+                return ResponseEntity.ok().body("Funcionário não possui custo");
             }
 
             return ResponseEntity.ok().body(listaDeCusto);
@@ -89,4 +90,21 @@ public class CustoController {
         }
 
     }
+
+    @GetMapping("/funcionario/{id}/concluido")
+    public ResponseEntity<?> listarCustoConcluidoFuncionario (@PathVariable Long id){
+        try {
+            List<Custo> custoConcluido = custoRepository.findCustoByIdFuncionarioAndStatusPagamento(id, StatusPagamento.CONCLUIDO);
+
+            if (custoConcluido.isEmpty()){
+                return ResponseEntity.ok().body("Funcionário não possui custo concluído");
+            }
+
+            return ResponseEntity.ok().body(custoConcluido);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }
