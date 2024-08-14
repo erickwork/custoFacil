@@ -1,10 +1,13 @@
 package com.friends.custoFacil.controller;
 
 import com.friends.custoFacil.domain.Custo;
+import com.friends.custoFacil.domain.Funcionario;
 import com.friends.custoFacil.dto.AlterarCusto;
 import com.friends.custoFacil.dto.cadastroCusto;
 import com.friends.custoFacil.repository.CustoRepository;
+import com.friends.custoFacil.repository.FuncionarioRepository;
 import com.friends.custoFacil.service.custoService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ public class CustoController {
 
     @Autowired
     private custoService custoService;
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
 
 
     @PostMapping
@@ -59,6 +64,27 @@ public class CustoController {
         try{
             return custoService.excluirCusto(id);
         }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listarCustoPorFuncionario(@PathVariable Long id){
+
+        try {
+            Funcionario funcionario = funcionarioRepository.findById(id)
+                    .orElseThrow(() ->
+                            new EntityNotFoundException("Funcionário não encontrado: " + id));
+
+            List<Custo> listaDeCusto = custoRepository.findCustoByIdFuncionario(id);
+
+            if (listaDeCusto.isEmpty()){
+                return ResponseEntity.ok().body("Usuário não possui custo");
+            }
+
+            return ResponseEntity.ok().body(listaDeCusto);
+        } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
