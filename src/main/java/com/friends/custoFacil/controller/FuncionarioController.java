@@ -6,6 +6,8 @@ import com.friends.custoFacil.dto.CadastroFuncionario;
 import com.friends.custoFacil.dto.retornoFuncionarioID;
 import com.friends.custoFacil.dto.retornoFuncionarios;
 import com.friends.custoFacil.enums.StatusFuncionario;
+import com.friends.custoFacil.enums.StatusPagamento;
+import com.friends.custoFacil.repository.CustoRepository;
 import com.friends.custoFacil.repository.FuncionarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,6 +27,8 @@ public class FuncionarioController {
     @Autowired
     FuncionarioRepository funcionarioRepository;
     StatusFuncionario statusFuncionario;
+    @Autowired
+    private CustoRepository custoRepository;
 
     @PostMapping
     @Transactional
@@ -134,5 +138,12 @@ public class FuncionarioController {
     public List<Funcionario> getFuncionariosAtivos(){
         return funcionarioRepository.findByStatusFuncionario(statusFuncionario.ACTIVE);
     }
+
+
+    @GetMapping("/{id}/{idPagamento}")
+    public ResponseEntity<?> listarCustoFuncionarioStatus (@PathVariable Long id, @PathVariable Long idPagamento){
+        return ResponseEntity.ok().body(custoRepository.findCustoByIdFuncionarioAndStatusPagamento(id, StatusPagamento.fromId(idPagamento)));
+    }
+
 
 }
